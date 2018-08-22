@@ -72,6 +72,18 @@ io.on("connection", (socket) => {
 
   })
 
+
+module.exports.sendFactoryInfo = function() {
+  Factory.find({}, function(err, info) {
+    if(err) {
+      console.log("there was an error", err);
+      return;
+    }
+    io.emit("currentFactoryInfo", info);
+  });
+}
+
+
 })
 
 

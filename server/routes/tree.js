@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Factory = require("../../models/factoryModel.js");
+const Server = require ("../../server.js");
 
 
 
@@ -39,7 +40,8 @@ router.post('/createfactory', function(req, res) {
   if(err) {
       console.log('Error creating factory', err);
   } else {
-      res.json(factory);
+    Server.sendFactoryInfo();
+    res.json(factory);
   }
   });
 

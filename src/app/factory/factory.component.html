@@ -1,1 +1,20 @@
+<div class="factoryDiv" *ngFor="let factory of factoryArr">
+  <div class="row">
+    <div class="col">
+      <h4>----{{factory?.factoryTitle}}</h4>
+    </div>
+    <div class="col text-center">
+      <h6>Min: {{factory?.minValue}} Max: {{factory?.maxValue}}</h6>
+    </div>
+  </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div *ngFor="let child of factory.children" class="childDiv">
+          <h4 class="childHeader">----{{child}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

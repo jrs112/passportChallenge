@@ -8,11 +8,15 @@ import { SocketService } from "../services/socket";
 })
 export class FactoryComponent implements OnInit {
 
+  factoryArr = [];
+
   constructor(private socketService: SocketService) { }
+
 
   ngOnInit() {
     this.socketService.getCurrentFactories().subscribe(
-      (data) => {
+      (data: Array<number>) => {
+        this.factoryArr = data;
         console.log(data);
       },
       (err) => console.log("there was an error getting the factories", err)
