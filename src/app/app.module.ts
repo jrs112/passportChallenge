@@ -8,12 +8,14 @@ import { GeneralService } from "./services/general";
 import { AppComponent } from './app.component';
 import { FactoryComponent } from './factory/factory.component';
 import { FactoryCreateComponent } from './factory-create/factory-create.component';
+import { FactoryUpdateComponent } from './factory-update/factory-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FactoryComponent,
-    FactoryCreateComponent
+    FactoryCreateComponent,
+    FactoryUpdateComponent
   ],
   imports: [
     BrowserModule,

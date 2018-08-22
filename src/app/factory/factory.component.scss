@@ -1,13 +1,21 @@
 
 .factoryDiv {
   margin-top: 2rem;
+  &:hover {
+    cursor: pointer;
+    color: blue;
+    background-color: rgba(38,84,79,.5);
+    border-top-color: rgb(157,165,159);
+    border-top-width: 2px;
+    border-top-style: 2px;
+  }
 }
 .childDiv {
   border-left-color: black;
   border-left-style: dashed;
   border-left-width: 2px;
   padding-top: 3rem;
-  padding-bottom: 0rem;
+  padding-bottom: .0rem;
   margin-left: 2rem;
   font-size: 2rem;
 }

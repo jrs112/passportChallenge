@@ -10,19 +10,24 @@ router.post('/createfactory', function(req, res) {
   console.log("Req body", req.body);
   if(req.body.factoryTitle === "" || req.body.factoryTitle === null) {
     res.json({errMsg: "Factory Title Is Required"});
+    return;
   }
   if(req.body.childAmount === "" || req.body.childAmount === null || req.body.childAmount < 0 || req.body.childAmount > 15) {
     res.json({errMsg: "Generate Amount Is Invalid"});
+    return;
   }
 
   if(req.body.childMax === "" || req.body.childMax === null) {
     res.json({errMsg: "Max Is Required"});
+    return;
   }
   if(req.body.childMin === "" || req.body.childMin === null) {
     res.json({errMsg: "Min Is Required"});
+    return;
   }
-  if (req.childMin > req.childMax) {
+  if (req.body.childMin > req.body.childMax) {
     res.json({errMsg: "There Min must be less than or equal to the Max"});
+    return;
   }
 
   const childArr = createChildArr(req.body.childAmount, req.body.childMin,req.body.childMax);
@@ -44,6 +49,53 @@ router.post('/createfactory', function(req, res) {
     res.json(factory);
   }
   });
+
+});
+
+//Create A Factory
+router.post('/updatefactory', function(req, res) {
+  console.log("Req body", req.body);
+  if(req.body.factoryTitle === "" || req.body.factoryTitle === null) {
+    res.json({errMsg: "Factory Title Is Required"});
+    return;
+  }
+  if(req.body.childAmount === "" || req.body.childAmount === null || req.body.childAmount < 0 || req.body.childAmount > 15) {
+    res.json({errMsg: "Generate Amount Is Invalid"});
+    return;
+  }
+
+  if(req.body.maxValue === "" || req.body.maxValue === null) {
+    res.json({errMsg: "Max Is Required"});
+    return;
+  }
+  if(req.body.minValue === "" || req.body.minValue === null) {
+    res.json({errMsg: "Min Is Required"});
+    return;
+  }
+  if (req.minValue > req.maxValue) {
+    res.json({errMsg: "There Min must be less than or equal to the Max"});
+    return;
+  }
+
+  const childArr = createChildArr(req.body.childAmount, req.body.minValue,req.body.maxValue);
+  console.log("GOT CHILD ARR", childArr);
+  const factoryObj = {
+    factoryTitle: req.body.factoryTitle,
+    children: childArr,
+    maxValue: req.body.maxValue,
+    minValue: req.body.minValue
+  }
+  console.log("factory object to save", factoryObj);
+
+  Factory.updateOne({_id: req.body._id}, {$set: factoryObj}, {new: true}, function(err, factory) {
+    if(err) {
+      console.log("error");
+      res.json({errMsg: "There was an error updating the factory"})
+    } else {
+      Server.sendFactoryInfo();
+      res.json(factory);
+    }
+  })
 
 });
 

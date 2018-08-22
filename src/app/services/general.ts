@@ -14,4 +14,6 @@ constructor(private http: HttpClient) { }
 
   showAddFactoryForm$ = new Subject();
 
+  cancelFactoryUpdate$ = new Subject();
+
 }

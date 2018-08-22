@@ -1,0 +1,42 @@
+<div class="card updateCardStyle">
+  <h5 class="text-center">Update {{factory$?.factoryTitle}}</h5>
+    <div class="text-center">
+      <button class="btn btn-sm btn-warning" (click)="cancelUpdate()">Cancel</button>
+    </div>
+  <form #f="ngForm" (submit)="updateFactory(f.value)">
+    <div class="form-group">
+      <label>Factory Title</label>
+      <input (focus)="checkFormErr('factoryTitle')" name="factoryTitle" class="form-control" type="text" [(ngModel)]="factoryTitle" />
+    </div>
+    <div class="form-group">
+      <label>Amount To Generate</label>
+      <select (focus)="checkFormErr('childAmount')" name="childAmount" class="form-control" [(ngModel)]="childAmount" required>
+        <option *ngFor="let value of valueArr; let i = index" value="{{value}}" >
+          {{value}}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6">
+          <label>Min</label>
+          <input (focus)="checkFormErr('childMin')" name="childMin" class="form-control" type="number" [(ngModel)]="childMin" (keyup)="checkMinMax()" />
+        </div>
+        <div class="col-6">
+          <label>Max</label>
+          <input (focus)="checkFormErr('childMax')" name="childMax" class="form-control" type="number" [(ngModel)]="childMax" (keyup)="checkMinMax()" />
+        </div>
+      </div>
+      <div *ngIf="minMaxErr != ''" class="alert alert-danger text-center errMsgDiv">
+        {{minMaxErr}}
+      </div>
+      <div *ngIf="formErrMsg != ''" class="alert alert-danger text-center errMsgDiv">
+        {{formErrMsg}}
+      </div>
+    </div>
+    <div class="text-center">
+      <button [disabled]="updatingFactory" type="submit" class="btn btn-success">Update</button>
+      <button class="btn btn-danger" type="button" (click)="deleteFactory()">Delete</button>
+    </div>
+  </form>
+</div>
