@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from "../services/socket";
 
 @Component({
   selector: 'app-factory',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FactoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private socketService: SocketService) { }
 
   ngOnInit() {
+    this.socketService.getCurrentFactories().subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (err) => console.log("there was an error getting the factories", err)
+    )
   }
 
 }

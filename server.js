@@ -6,9 +6,11 @@ const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require("mongoose");
 const path = require('path');
+const socketIO = require("socket.io");
 const server = http.createServer(app);
 var mongoUser = process.env.Mongo_User;
 var mongoPassword = process.env.Mongo_Password;
+const Factory = require("./models/factoryModel.js");
 
 // Connect
 // const db = "mongodb://" + mongoUser + ":" + mongoPassword + "@ds123259.mlab.com:23259/code-manager";
@@ -49,6 +51,28 @@ app.get('*', (req, res) => {
 //Set Port
 
 var port = process.env.PORT || 4200;
+
+var io = socketIO(server);
+
+io.on("connection", (socket) => {
+  console.log("new user connected");
+
+  socket.on("getFactories", async (params, callback) => {
+
+  Factory.find({}, function(err, info) {
+    if(err) {
+      console.log("there was an error", err);
+      return;
+    }
+    socket.emit("currentFactoryInfo", info);
+
+
+
+  });
+
+  })
+
+})
 
 
 

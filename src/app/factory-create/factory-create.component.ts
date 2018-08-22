@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FactoryApiService } from "../services/factory-api";
 import { GeneralService } from "../services/general";
 
+
 @Component({
   selector: 'app-factory-create',
   templateUrl: './factory-create.component.html',
@@ -38,21 +39,26 @@ export class FactoryCreateComponent implements OnInit {
     this.creatingFactory = true;
     this.formErrMsg = "";
     if(this.minMaxErr === this.minMaxErrMsg) {
+      this.creatingFactory = false;
       return;
     }
     if(form.factoryTitle === "") {
+      this.creatingFactory = false;
       this.formErrMsg = this.missingTitleMsg;
       return;
     }
     if(form.childAmount === "" || form.childAmount === null) {
+      this.creatingFactory = false;
       this.formErrMsg = this.missingGenAmtMsg;
       return;
     }
     if(form.childMin === "" || form.childMin === null) {
+      this.creatingFactory = false;
       this.formErrMsg = this.missingMinAmtMsg;
       return;
     }
     if(form.childMax === "" || form.childMax === null) {
+      this.creatingFactory = false;
       this.formErrMsg = this.missingMaxAmtMsg;
       return;
     }

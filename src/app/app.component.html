@@ -19,6 +19,7 @@
             </div>
           </div>
         </div>
+        <app-factory></app-factory>
         <button *ngIf="!showAddFactoryForm" (click)="showAddFactoryForm = true" class="btn btn-primary addFactoryBtn">Add Factory</button>
         <button *ngIf="showAddFactoryForm" (click)="showAddFactoryForm = false" class="btn btn-danger addFactoryBtn">Cancel</button>
       </div>
