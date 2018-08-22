@@ -76,15 +76,24 @@ router.post('/updatefactory', function(req, res) {
     res.json({errMsg: "There Min must be less than or equal to the Max"});
     return;
   }
-
-  const childArr = createChildArr(req.body.childAmount, req.body.minValue,req.body.maxValue);
-  console.log("GOT CHILD ARR", childArr);
-  const factoryObj = {
-    factoryTitle: req.body.factoryTitle,
-    children: childArr,
-    maxValue: req.body.maxValue,
-    minValue: req.body.minValue
+  let factoryObj;
+  if(req.body.updateChildren) {
+    const childArr = createChildArr(req.body.childAmount, req.body.minValue,req.body.maxValue);
+    factoryObj = {
+      factoryTitle: req.body.factoryTitle,
+      children: childArr,
+      maxValue: req.body.maxValue,
+      minValue: req.body.minValue
+    }
+  } else {
+      factoryObj = {
+      factoryTitle: req.body.factoryTitle,
+      maxValue: req.body.maxValue,
+      minValue: req.body.minValue
+    }
   }
+
+
   console.log("factory object to save", factoryObj);
 
   Factory.updateOne({_id: req.body._id}, {$set: factoryObj}, {new: true}, function(err, factory) {

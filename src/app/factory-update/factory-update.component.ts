@@ -27,6 +27,13 @@ export class FactoryUpdateComponent implements OnInit {
   missingMinAmtMsg = "Please Enter A Min Amount";
   missingMaxAmtMsg = "Please Enter A Max Amount";
   minMaxErrMsg = "The Min amount must be less than or equal to the Max amount.";
+  startObj: {
+    startChildCount: number,
+    startMinValue: number,
+    startMaxValue: number,
+    startFactoryTitle: string
+  }
+
 
   ngOnInit() {
     this.setValueArr(this.childAmountMax);
@@ -39,6 +46,12 @@ export class FactoryUpdateComponent implements OnInit {
         this.factoryTitle = data.factoryTitle;
         this.childAmount = data.children.length;
         this.factoryId = data._id;
+        this.startObj = {
+          startChildCount: data.children.length,
+          startMaxValue: data.maxValue,
+          startMinValue: data.minValue,
+          startFactoryTitle: data.factoryTitle
+        }
       },
       (err) => console.log("there was an error getting the update data", err)
     )
@@ -111,12 +124,17 @@ export class FactoryUpdateComponent implements OnInit {
       this.formErrMsg = this.missingMaxAmtMsg;
       return;
     }
-    const updateObj = {
+    let updateObj = {
       _id: this.factoryId,
       factoryTitle: form.factoryTitle,
       childAmount: form.childAmount,
       minValue: form.childMin,
       maxValue: form.childMax,
+      updateChildren: true
+    }
+
+    if(form.childAmount === this.startObj.startChildCount && form.childMin === this.startObj.startMinValue && form.childMax === this.startObj.startMaxValue) {
+      updateObj.updateChildren = false;
     }
 
   let updateFactory = this.factoryApiService.updateFactory(updateObj);
