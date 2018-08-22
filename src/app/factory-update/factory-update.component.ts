@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FactoryApiService } from "../services/factory-api";
+import { GeneralService } from "../services/general";
 import { Factory } from "../model/factory";
 
 @Component({
@@ -9,7 +10,7 @@ import { Factory } from "../model/factory";
 })
 export class FactoryUpdateComponent implements OnInit {
 
-  constructor(private factoryApiService: FactoryApiService) { }
+  constructor(private factoryApiService: FactoryApiService, private generalService: GeneralService) { }
   factory$: Factory;
   formErrMsg = "";
   minMaxErr = "";
@@ -20,6 +21,7 @@ export class FactoryUpdateComponent implements OnInit {
   factoryTitle;
   childAmount;
   factoryId;
+  children;
   updatingFactory = false;
   showDeleteForm = false;
   missingTitleMsg = "Please Enter The Factory Title";
@@ -28,29 +30,30 @@ export class FactoryUpdateComponent implements OnInit {
   missingMaxAmtMsg = "Please Enter A Max Amount";
   minMaxErrMsg = "The Min amount must be less than or equal to the Max amount.";
   startObj: {
-    startChildCount: number,
-    startMinValue: number,
-    startMaxValue: number,
-    startFactoryTitle: string
+    childAmount: number,
+    childMin: number,
+    childMax: number,
+    factoryTitle: string
   }
 
 
   ngOnInit() {
     this.setValueArr(this.childAmountMax);
     this.factoryApiService.factory$.subscribe(
-      (data: Factory) => {
+      (data: any) => {
         console.log("update comp data", data)
         this.factory$ = data;
         this.childMin = data.minValue;
         this.childMax = data.maxValue;
         this.factoryTitle = data.factoryTitle;
         this.childAmount = data.children.length;
+        this.children = data.children;
         this.factoryId = data._id;
         this.startObj = {
-          startChildCount: data.children.length,
-          startMaxValue: data.maxValue,
-          startMinValue: data.minValue,
-          startFactoryTitle: data.factoryTitle
+          childAmount: data.children.length,
+          childMax: data.maxValue,
+          childMin: data.minValue,
+          factoryTitle: data.factoryTitle
         }
       },
       (err) => console.log("there was an error getting the update data", err)
@@ -65,6 +68,7 @@ export class FactoryUpdateComponent implements OnInit {
 
   checkMinMax() {
     this.minMaxErr = "";
+    this.sendUpdateInfo();
     if(this.childMin > this.childMax && this.childMax != null) {
       console.log("got here")
       this.minMaxErr = this.minMaxErrMsg;
@@ -100,6 +104,13 @@ export class FactoryUpdateComponent implements OnInit {
   updateFactory(form) {
     this.updatingFactory = true;
     this.formErrMsg = "";
+    console.log("FORM", form);
+    console.log("startObj", this.startObj)
+    if(form.childAmount === this.startObj.childAmount && form.childMax === this.startObj.childMax && form.childMin === this.startObj.childMin && form.factoryTitle === this.startObj.factoryTitle) {
+      console.log("NOT UPDATING");
+      this.cancelUpdate();
+      return;
+    }
     if(this.minMaxErr === this.minMaxErrMsg) {
       this.updatingFactory = false;
       return;
@@ -133,9 +144,10 @@ export class FactoryUpdateComponent implements OnInit {
       updateChildren: true
     }
 
-    if(form.childAmount === this.startObj.startChildCount && form.childMin === this.startObj.startMinValue && form.childMax === this.startObj.startMaxValue) {
+    if(form.childAmount === this.startObj.childAmount && form.childMin === this.startObj.childMin && form.childMax === this.startObj.childMax) {
       updateObj.updateChildren = false;
     }
+
 
   let updateFactory = this.factoryApiService.updateFactory(updateObj);
   let updateFactory$ = updateFactory.subscribe(
@@ -172,6 +184,17 @@ export class FactoryUpdateComponent implements OnInit {
       },
       (err) => console.log("there was an error deleting the factory")
     )
+  }
+
+  sendUpdateInfo() {
+    const updateObj = {
+      factoryTitle: this.factoryTitle,
+      children: this.children,
+      minValue: this.childMin,
+      maxValue: this.childMax,
+      _id: this.factoryId
+    }
+    this.generalService.updateInfo$.next(updateObj);
   }
 
 }

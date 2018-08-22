@@ -8,13 +8,17 @@ const mongoose = require("mongoose");
 const path = require('path');
 const socketIO = require("socket.io");
 const server = http.createServer(app);
-var mongoUser = process.env.Mongo_User;
-var mongoPassword = process.env.Mongo_Password;
+const mongoUser = process.env.Mongo_User;
+const mongoPassword = process.env.Mongo_Password;
 const Factory = require("./models/factoryModel.js");
+const helmet = require('helmet')
+
 
 // Connect
-// const db = "mongodb://" + mongoUser + ":" + mongoPassword + "@ds123259.mlab.com:23259/code-manager";
-const db = "mongodb://localhost/passportChallenge";
+
+const db = `mongodb://${mongoUser}:${mongoPassword}@ds229552.mlab.com:29552/passportchallenge`;
+console.log("DB", db)
+// const db = "mongodb://localhost/passportChallenge";
 useMongoClient: true;
 mongoose.Promise = global.Promise;
 //connect and show any mongoose errors
@@ -28,6 +32,8 @@ mongoose.connect(db, { useNewUrlParser: true }, function(err) {
 });
 
 
+//security package of different middlewares
+app.use(helmet())
 // API file for interacting with MongoDB
 const tree = require("./server/routes/tree");
 

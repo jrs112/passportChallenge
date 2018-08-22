@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketService } from "../services/socket";
 import { FactoryApiService } from "../services/factory-api";
 import { GeneralService } from "../services/general";
+import { Factory } from "../model/factory";
 
 @Component({
   selector: 'app-factory',
@@ -12,13 +13,25 @@ export class FactoryComponent implements OnInit {
 
   factoryArr = [];
   currentUpdate = false;
+  updateInfo;
 
   constructor(private socketService: SocketService, private factoryApiService: FactoryApiService, private generalService: GeneralService) { }
 
 
   ngOnInit() {
     this.socketService.getCurrentFactories().subscribe(
-      (data: Array<number>) => {
+      (data: Array<any>) => {
+        for(let i = 0; i < this.factoryArr.length; i++) {
+          console.log("data", data);
+          for(let j = 0; j < data.length; j++) {
+            const oldFactoryArr = this.factoryArr[i];
+            if(oldFactoryArr.showUpdateForm && oldFactoryArr.factoryTitle === data[j].factoryTitle && oldFactoryArr.childAmount === data[j].childAmount && oldFactoryArr.minValue === data[j].minValue && oldFactoryArr.maxValue === data[j].maxValue) {
+              data[j].showUpdateForm = true;
+              this.factoryArr = data;
+              return;
+            }
+          }
+        }
         this.factoryArr = data;
         console.log(data);
       },
