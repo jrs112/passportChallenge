@@ -1,4 +1,4 @@
-<div class="card updateCardStyle">
+<div *ngIf="!showDeleteForm" class="card updateCardStyle">
   <h5 class="text-center">Update {{factory$?.factoryTitle}}</h5>
     <div class="text-center">
       <button class="btn btn-sm btn-warning" (click)="cancelUpdate()">Cancel</button>
@@ -35,8 +35,17 @@
       </div>
     </div>
     <div class="text-center">
-      <button [disabled]="updatingFactory" type="submit" class="btn btn-success">Update</button>
-      <button class="btn btn-danger" type="button" (click)="deleteFactory()">Delete</button>
+      <button [disabled]="updatingFactory" type="submit" class="btn btn-success firstBtn">Update</button>
+      <button class="btn btn-danger" type="button" (click)="showDeleteForm = true">Delete</button>
     </div>
   </form>
+</div>
+
+<div *ngIf="showDeleteForm" class="card updateCardStyle text-center">
+  <h3>Are you sure you want to delete {{factoryTitle}}?</h3>
+  <form>
+    <button type="button" class="btn btn-danger firstBtn" (click)="deleteFactory()">Yes, Delete</button>
+    <button type="button" class="btn btn-warning" (click)="showDeleteForm = false">No, Go Back</button>
+  </form>
+
 </div>

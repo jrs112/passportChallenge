@@ -52,7 +52,7 @@ router.post('/createfactory', function(req, res) {
 
 });
 
-//Create A Factory
+//Update A Factory
 router.post('/updatefactory', function(req, res) {
   console.log("Req body", req.body);
   if(req.body.factoryTitle === "" || req.body.factoryTitle === null) {
@@ -97,6 +97,22 @@ router.post('/updatefactory', function(req, res) {
     }
   })
 
+});
+
+//Delete A Factory
+
+router.post("/deletefactory", function(req, res) {
+  const info = req.body;
+  Factory.deleteOne({_id: req.body._id}, function(err, rem) {
+    if(err) {
+      console.log("error occured: ", err);
+      return;
+    } else {
+      console.log("deleted")
+      Server.sendFactoryInfo();
+      res.json(rem);
+    }
+  });
 });
 
 

@@ -26,14 +26,19 @@ updateFactoryObs(info: Factory) {
 }
 
 //Create Factory
-  createFactory(factoryInfo) {
-   return this.http.post("/tree/createfactory", factoryInfo);
-  }
+createFactory(factoryInfo) {
+ return this.http.post("/tree/createfactory", factoryInfo);
+}
 
 //Update Factory
-  updateFactory(factoryInfo) {
-   return this.http.post("/tree/updatefactory", factoryInfo);
-  }
+updateFactory(factoryInfo) {
+ return this.http.post("/tree/updatefactory", factoryInfo);
+}
+
+//Delete Factory
+deleteFactory(factoryInfo) {
+ return this.http.post("/tree/deleteFactory", factoryInfo);
+}
 
 cancelUpdate(info) {
   this.generalService.cancelFactoryUpdate$.next(info);

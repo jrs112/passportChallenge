@@ -21,6 +21,7 @@ export class FactoryUpdateComponent implements OnInit {
   childAmount;
   factoryId;
   updatingFactory = false;
+  showDeleteForm = false;
   missingTitleMsg = "Please Enter The Factory Title";
   missingGenAmtMsg = "Please Select A Generate Amount";
   missingMinAmtMsg = "Please Enter A Min Amount";
@@ -138,6 +139,21 @@ export class FactoryUpdateComponent implements OnInit {
     }
   )
 
+  }
+
+  deleteFactory() {
+    const deleteInfoObj = {
+      _id: this.factoryId
+    };
+
+    this.factoryApiService.deleteFactory(deleteInfoObj)
+    .subscribe(
+      (data) => {
+        console.log("success deleted!", data);
+        this.cancelUpdate();
+      },
+      (err) => console.log("there was an error deleting the factory")
+    )
   }
 
 }
