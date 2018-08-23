@@ -26,7 +26,7 @@ export class FactoryComponent implements OnInit {
         for(let i = 0; i < this.factoryArr.length; i++) {
           for(let j = 0; j < data.length; j++) {
             const oldFactoryArr = this.factoryArr[i];
-            if(oldFactoryArr.showUpdateForm && oldFactoryArr.factoryTitle === data[j].factoryTitle && oldFactoryArr.childAmount === data[j].childAmount && oldFactoryArr.minValue === data[j].minValue && oldFactoryArr.maxValue === data[j].maxValue) {
+            if(oldFactoryArr.showUpdateForm && oldFactoryArr.factoryTitle === data[j].factoryTitle && oldFactoryArr.children.length === data[j].children.length && oldFactoryArr.minValue === data[j].minValue && oldFactoryArr.maxValue === data[j].maxValue) {
               data[j].showUpdateForm = true;
               this.factoryArr = data;
               return;
