@@ -24,7 +24,6 @@ export class FactoryComponent implements OnInit {
       (data: Array<any>) => {
         //this loop is checking if the user is trying to update a factory so the update doesn't close when another user updates a different factory
         for(let i = 0; i < this.factoryArr.length; i++) {
-          console.log("data", data);
           for(let j = 0; j < data.length; j++) {
             const oldFactoryArr = this.factoryArr[i];
             if(oldFactoryArr.showUpdateForm && oldFactoryArr.factoryTitle === data[j].factoryTitle && oldFactoryArr.childAmount === data[j].childAmount && oldFactoryArr.minValue === data[j].minValue && oldFactoryArr.maxValue === data[j].maxValue) {
@@ -35,7 +34,6 @@ export class FactoryComponent implements OnInit {
           }
         }
         this.factoryArr = data;
-        console.log(data);
       },
       (err) => console.log("there was an error getting the factories", err)
     )

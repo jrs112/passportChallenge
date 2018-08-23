@@ -70,7 +70,6 @@ export class FactoryCreateComponent implements OnInit {
   let createFactory = this.factoryApiService.createFactory(form);
   let createFactory$ = createFactory.subscribe(
     (data: any) => {
-      console.log("SUCCES", data);
       if(data.errMsg) {
         this.formErrMsg = data.errMsg;
         return;

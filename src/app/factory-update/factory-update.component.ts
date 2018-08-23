@@ -42,7 +42,6 @@ export class FactoryUpdateComponent implements OnInit {
     this.setValueArr(this.childAmountMax);
     this.factoryApiService.factory$.subscribe(
       (data: any) => {
-        console.log("update comp data", data)
         this.factory$ = data;
         this.childMin = data.minValue;
         this.childMax = data.maxValue;
@@ -70,7 +69,6 @@ export class FactoryUpdateComponent implements OnInit {
   checkMinMax() {
     this.minMaxErr = "";
     if(this.childMin > this.childMax && this.childMax != null) {
-      console.log("got here")
       this.minMaxErr = this.minMaxErrMsg;
     }
   }
@@ -104,11 +102,8 @@ export class FactoryUpdateComponent implements OnInit {
   updateFactory(form) {
     this.updatingFactory = true;
     this.formErrMsg = "";
-    console.log("FORM", form);
-    console.log("startObj", this.startObj)
     //checking if any changes were made.  if not then cancel update.
     if(form.childAmount === this.startObj.childAmount && form.childMax === this.startObj.childMax && form.childMin === this.startObj.childMin && form.factoryTitle === this.startObj.factoryTitle) {
-      console.log("NOT UPDATING");
       this.cancelUpdate();
       return;
     }
@@ -154,7 +149,6 @@ export class FactoryUpdateComponent implements OnInit {
   let updateFactory = this.factoryApiService.updateFactory(updateObj);
   let updateFactory$ = updateFactory.subscribe(
     (data: any) => {
-      console.log("SUCCES", data);
       if(data.errMsg) {
         this.formErrMsg = data.errMsg;
         this.updatingFactory = false;
@@ -181,13 +175,12 @@ export class FactoryUpdateComponent implements OnInit {
     this.factoryApiService.deleteFactory(deleteInfoObj)
     .subscribe(
       (data) => {
-        console.log("success deleted!", data);
         this.cancelUpdate();
       },
-      (err) => console.log("there was an error deleting the factory")
+      (err) => console.log("there was an error deleting the factory", err)
     )
   }
 
-  
+
 
 }
