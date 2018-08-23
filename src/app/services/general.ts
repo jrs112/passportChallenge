@@ -16,6 +16,5 @@ constructor(private http: HttpClient) { }
 
   cancelFactoryUpdate$ = new Subject();
 
-  updateInfo$ = new Subject();
 
 }

@@ -11,9 +11,12 @@ export class SocketService {
 private socket;
 
 constructor(private http: HttpClient) {
-  const serverUrl = "passportchallenge.herokuapp.com";
+  // const serverUrl = "passportchallenge.herokuapp.com";
+  const serverUrl = "http://localhost:4200"
   this.socket = io(serverUrl);
 }
+
+//for closing a socket
 
 closeSocket() {
 
@@ -21,6 +24,8 @@ closeSocket() {
       console.log("Disconnected from server");
     });
   }
+
+  //requesting and then subscribing to current factories
 
 getCurrentFactories() {
   this.socket.emit("getFactories", function(msg) {

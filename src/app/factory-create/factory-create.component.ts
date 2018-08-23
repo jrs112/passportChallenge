@@ -26,6 +26,7 @@ export class FactoryCreateComponent implements OnInit {
   constructor(private factoryApiService: FactoryApiService, private generalService: GeneralService) { }
 
   ngOnInit() {
+    //setting the number of dropdown options for generate amount on componenet init
     this.setValueArr(this.childAmountMax);
   }
 
@@ -38,6 +39,7 @@ export class FactoryCreateComponent implements OnInit {
   createFactory(form) {
     this.creatingFactory = true;
     this.formErrMsg = "";
+    //checking if info is valid
     if(this.minMaxErr === this.minMaxErrMsg) {
       this.creatingFactory = false;
       return;
@@ -63,12 +65,15 @@ export class FactoryCreateComponent implements OnInit {
       return;
     }
 
+    //attempt to create factory if all is good
+
   let createFactory = this.factoryApiService.createFactory(form);
   let createFactory$ = createFactory.subscribe(
     (data: any) => {
       console.log("SUCCES", data);
       if(data.errMsg) {
         this.formErrMsg = data.errMsg;
+        return;
       }
       this.generalService.showAddFactoryForm$.next(false);
       this.creatingFactory = false;
@@ -83,6 +88,7 @@ export class FactoryCreateComponent implements OnInit {
 
   }
 
+  //checks if min and max values are correct on keyup events
   checkMinMax() {
     this.minMaxErr = "";
     if(this.childMin > this.childMax && this.childMax != null) {
@@ -90,6 +96,7 @@ export class FactoryCreateComponent implements OnInit {
     }
   }
 
+  //checks to remove error msg if user click on input field for error
   checkFormErr(id) {
     if(this.formErrMsg === this.missingTitleMsg && id === "factoryTitle") {
       this.formErrMsg = "";

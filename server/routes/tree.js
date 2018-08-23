@@ -47,7 +47,7 @@ router.post('/createfactory', function(req, res) {
       console.log('Error creating factory', err);
   } else {
     Server.sendFactoryInfo();
-    res.json(factory);
+    res.json({msg:"success"});
   }
   });
 
@@ -104,7 +104,7 @@ router.post('/updatefactory', function(req, res) {
       res.json({errMsg: "There was an error updating the factory"})
     } else {
       Server.sendFactoryInfo();
-      res.json(factory);
+      res.json({msg: "success"});
     }
   })
 
@@ -123,7 +123,7 @@ router.post("/deletefactory", function(req, res) {
     } else {
       console.log("deleted")
       Server.sendFactoryInfo();
-      res.json(rem);
+      res.json({msg: "success"});
     }
   });
 });

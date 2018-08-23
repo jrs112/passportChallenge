@@ -19,8 +19,10 @@ export class FactoryComponent implements OnInit {
 
 
   ngOnInit() {
+    //get all factories in db
     this.socketService.getCurrentFactories().subscribe(
       (data: Array<any>) => {
+        //this loop is checking if the user is trying to update a factory so the update doesn't close when another user updates a different factory
         for(let i = 0; i < this.factoryArr.length; i++) {
           console.log("data", data);
           for(let j = 0; j < data.length; j++) {
@@ -37,7 +39,7 @@ export class FactoryComponent implements OnInit {
       },
       (err) => console.log("there was an error getting the factories", err)
     )
-
+    //listening for when an update is canceled from the factory-update component
     this.generalService.cancelFactoryUpdate$.subscribe(
       (info) => {
         this.removeUpdateFormFunc(info);
@@ -46,6 +48,7 @@ export class FactoryComponent implements OnInit {
     )
   }
 
+  //function for when user clicks on factory to show update form for that factory
   showUpdateFormFunc(info) {
     for(let i = 0; i < this.factoryArr.length; i++) {
       this.factoryArr[i].showUpdateForm = false;

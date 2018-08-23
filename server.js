@@ -14,11 +14,10 @@ const Factory = require("./models/factoryModel.js");
 const helmet = require('helmet')
 
 
-// Connect
+// Connect to mlab mongodb
 
 const db = `mongodb://${mongoUser}:${mongoPassword}@ds229552.mlab.com:29552/passportchallenge`;
-console.log("DB", db)
-// const db = "mongodb://localhost/passportChallenge";
+
 useMongoClient: true;
 mongoose.Promise = global.Promise;
 //connect and show any mongoose errors
@@ -58,10 +57,14 @@ app.get('*', (req, res) => {
 
 var port = process.env.PORT || 4200;
 
+//socket io logic
+
 var io = socketIO(server);
 
 io.on("connection", (socket) => {
   console.log("new user connected");
+
+  //send back all factories in the database on getFactories to specific user
 
   socket.on("getFactories", async (params, callback) => {
 
@@ -85,6 +88,7 @@ module.exports.sendFactoryInfo = function() {
       console.log("there was an error", err);
       return;
     }
+    //send to everyone
     io.emit("currentFactoryInfo", info);
   });
 }

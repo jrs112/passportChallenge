@@ -38,6 +38,7 @@ export class FactoryUpdateComponent implements OnInit {
 
 
   ngOnInit() {
+    //setting the info for the current factory being updated
     this.setValueArr(this.childAmountMax);
     this.factoryApiService.factory$.subscribe(
       (data: any) => {
@@ -68,7 +69,6 @@ export class FactoryUpdateComponent implements OnInit {
 
   checkMinMax() {
     this.minMaxErr = "";
-    this.sendUpdateInfo();
     if(this.childMin > this.childMax && this.childMax != null) {
       console.log("got here")
       this.minMaxErr = this.minMaxErrMsg;
@@ -106,11 +106,13 @@ export class FactoryUpdateComponent implements OnInit {
     this.formErrMsg = "";
     console.log("FORM", form);
     console.log("startObj", this.startObj)
+    //checking if any changes were made.  if not then cancel update.
     if(form.childAmount === this.startObj.childAmount && form.childMax === this.startObj.childMax && form.childMin === this.startObj.childMin && form.factoryTitle === this.startObj.factoryTitle) {
       console.log("NOT UPDATING");
       this.cancelUpdate();
       return;
     }
+    //validating logic
     if(this.minMaxErr === this.minMaxErrMsg) {
       this.updatingFactory = false;
       return;
@@ -186,15 +188,6 @@ export class FactoryUpdateComponent implements OnInit {
     )
   }
 
-  sendUpdateInfo() {
-    const updateObj = {
-      factoryTitle: this.factoryTitle,
-      children: this.children,
-      minValue: this.childMin,
-      maxValue: this.childMax,
-      _id: this.factoryId
-    }
-    this.generalService.updateInfo$.next(updateObj);
-  }
+  
 
 }
