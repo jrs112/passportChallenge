@@ -11,8 +11,8 @@ export class SocketService {
 private socket;
 
 constructor(private http: HttpClient) {
-  // const serverUrl = "passportchallenge.herokuapp.com";
-  const serverUrl = "http://localhost:4200"
+  const serverUrl = "passportchallenge.herokuapp.com";
+  // const serverUrl = "http://localhost:4200"
   this.socket = io(serverUrl);
 }
 
