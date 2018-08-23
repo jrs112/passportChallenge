@@ -790,7 +790,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var SocketService = /** @class */ (function () {
     function SocketService(http) {
         this.http = http;
-        var serverUrl = "https://passportchallenge.herokuapp.com/";
+        var serverUrl = "https://passportchallenge.herokuapp.com";
         this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(serverUrl);
     }
     SocketService.prototype.closeSocket = function () {
