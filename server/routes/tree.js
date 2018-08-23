@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Factory = require("../../models/factoryModel.js");
 const Server = require ("../../server.js");
+const sanitize = require('mongo-sanitize');
 
 
 
@@ -95,8 +96,9 @@ router.post('/updatefactory', function(req, res) {
 
 
   console.log("factory object to save", factoryObj);
+  const userId = sanitize(req.body._id)
 
-  Factory.updateOne({_id: req.body._id}, {$set: factoryObj}, {new: true}, function(err, factory) {
+  Factory.updateOne({_id: userId}, {$set: factoryObj}, {new: true}, function(err, factory) {
     if(err) {
       console.log("error");
       res.json({errMsg: "There was an error updating the factory"})
@@ -112,7 +114,9 @@ router.post('/updatefactory', function(req, res) {
 
 router.post("/deletefactory", function(req, res) {
   const info = req.body;
-  Factory.deleteOne({_id: req.body._id}, function(err, rem) {
+  const userId = sanitize(req.body._id);
+
+  Factory.deleteOne({_id: userId}, function(err, rem) {
     if(err) {
       console.log("error occured: ", err);
       return;
